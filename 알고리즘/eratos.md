@@ -1,0 +1,113 @@
+# 에라토스테네스의 체
+
+- 알고리즘
+- 2020년 03월 07일
+
+## 에라토스테네스의 체
+
+N보다 작거나 같은 모든 소수를 찾는 알고리즘이다.
+
+- N이 1보다 작거나 같으면 소수가 없다.
+- 2부터 N까지의 모든 수를 나열한다 -  2부터 N까지 N-1 개를 저장할 수 있는 배열을 할당한다. 배열 참조번호와 소수가 일치하도록 배열의 크기는 N+1만큼 할당(인덱스 0, 1은 사용하지 않는다)
+- 검사는 2부터 sqrt(N) 전까지만 하면 된다.
+
+    void Eratos(int n) {
+    	if (n <= 1) return;
+    	bool arr[n+1];
+    	fill(&arr[2], &arr[n+1], true);
+    	for (int i=2; i*i<n+1; i++) {
+    		if (arr[i]) {
+    			for (int j = i*i; j<n+1; j+=i) {
+    				arr[j] = false;
+    			}
+    		}
+    	} 
+    }
+
+### **백준 문제 풀이**
+
+[2960번: 에라토스테네스의 체](https://www.acmicpc.net/problem/2960)
+
+    #include <iostream>
+    using namespace std;
+    
+    int solve(int n, int k) {
+    	int cnt = 0;
+    	bool arr[n+1];
+    	fill(&arr[0], &arr[n+1], true);
+    	for (int i=2; i<n+1; i++) {
+    		if (!arr[i]) continue;
+    		for (int j=i; j<n+1; j=j+i) {
+    			if (arr[j]) { 
+    				arr[j] = false;
+    				if (++cnt == k) return j;
+    			}
+    		}
+    	}
+    	return -1;
+    }
+    int main() {
+    	int n, k;
+    	cin >> n >> k;
+    	cout << solve(n, k);
+    	return 0;
+    }
+
+[1644번: 소수의 연속합](https://www.acmicpc.net/problem/1644)
+
+    #include <iostream>
+    #include <vector>
+    using namespace std;
+    
+    vector<int> p;
+    int n, ans = 0;
+    void eratos() {
+    	bool arr[n+1];
+    	fill(&arr[2], &arr[n+1], true);
+    	for (int i=2; i*i<n+1; i++) {
+    		if (arr[i]) {
+    			for (int j=i*i; j<n+1; j+=i) {
+    				arr[j] = false;
+    			}
+    		}
+    	}
+    	
+    	for (int i=2; i<n+1; i++) {
+    		if (arr[i]) {
+    			p.push_back(i);
+    		}
+    	}
+    }
+    
+    void solve() {
+    	int s = 0, e = 0;
+    	int sum = 0;
+    	while (s < p.size() && e < p.size()) {
+    		sum += p[e++];
+    		if (sum == n) {
+    			ans++;
+    		}
+    		else if (sum > n) {
+    			while (s < e) { 
+    				sum -= p[s++];
+    				if (sum <= n) {
+    					if (sum == n) {
+    						ans++;
+    					}
+    					break;
+    				}
+    			}
+    		}
+    	}
+    }
+    int main() {
+    	cin >> n;
+    	eratos();
+    	solve();
+    	cout << ans;
+    	return 0;
+    }
+
+**참고**
+
+[에라토스테네스의 체](https://ko.wikipedia.org/wiki/%EC%97%90%EB%9D%BC%ED%86%A0%EC%8A%A4%ED%85%8C%EB%84%A4%EC%8A%A4%EC%9D%98_%EC%B2%B4)
