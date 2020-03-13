@@ -1,0 +1,296 @@
+# [Vue] 슬롯(Slots)
+
+- 프론트
+- 2020년 03월 09일
+
+## Why?
+
+요즘 vue 프로젝트를 하면서 Vuetify 공식 문서를 매일 같이 들락날락 하고 있다. 크롬 탭 한켠에 켜놓고 Vuetify 죠아..🤩하며 잘 쓰고 있던 중 낯선 예제가 눈에 밟혔다. 바로 아래의 `<v-menu>` 컴포넌트의 예시 코드다.
+```ts
+    <v-menu offset-y>
+    	<template v-slot:activator="{ on }">
+    	  <v-btn
+    	    color="primary"
+          dark
+          v-on="on"
+    	   >
+    	     Dropdown
+    		 </v-btn>
+       </template>
+       <v-list>
+         <v-list-item
+           v-for="(item, index) in items"
+           :key="index"
+           @click=""
+         >
+           <v-list-item-title>{{ item.title }}</v-list-item-title>
+         </v-list-item>
+       </v-list>
+     </v-menu>
+```
+**`<template v-slot:activator="{ on }>`**  음.. slot이 컴포넌트 렌더링할 때 베이스 컴포넌트의 `<slot>` 에 부모 컴포넌트가 들어가는 거 였는 데...? 근데 예제에서 어떻게 리스트를 보였다 숨겼다 하는 거지? 라는 생각이 들었고 지식의 짧음을 깨달아 곧장 Vue 공식 문서를 방문했다.
+
+[슬롯(Slots) - Vue.js](https://kr.vuejs.org/v2/guide/components-slots.html)
+
+## 슬롯?
+
+### A 컴포넌트 안에 B(컴포넌트, 텍스트, HTML 템플릿..)를 넣고 싶을 때
+
+예시로 페이지마다 쓰이는 레이아웃(헤더, 푸터) 컴포넌트에 페이지마다 달라지는 컨텐츠 컴포넌트를 넣고 싶다고 하자.
+
+레이아웃(Layout) 컴포넌트는 아래와 같다.
+```ts
+    <template>
+    	<Header />
+    	<main>
+    		<slot></slot>
+    	</main>
+    	<Footer />
+    </template>
+```
+이제 콘텐츠(Content) 컴포넌트를 Layout 컴포넌트의 `<slot></slot>` 부분에 넣어보자.
+
+콘텐츠(Content) 컴포넌트는 아래와 같다.
+```ts
+    <template>
+    	<Layout>
+    		<div>매번 변경되는 컨텐츠들..</div>
+    		<Shop />
+    	</Layout>
+    </template>
+```
+만약 레이아웃 컴포넌트에 `<slot>` 이 없으면 위 예제의 `<Layout>` 요소 안에 있는 내용은 무시된다.
+
+### 음 근데 A컴포넌트 안에 여러 `<slot>`을 만들고 싶은데?
+
+당근 가능하다. 위 예제에서 컨텐츠뿐만 아니라 헤더와 푸터도 `<slot>` 요소로 받을 수 있게 바꿔보자
+```ts
+    <template>
+    	<slot name="header"></slot>
+    	<main>
+        <slot></slot>
+      </main>
+    	<slot name="footer"></slot>
+    </template>
+```
+자세히 살펴보면 `<slot>`이 name 속성을 가지고 있다. `<main>`안의 `<slot>`은 name이 지정되지 않았는 데 이때는 암묵적으로 "default" 이름을 갖는다.
+
+자 이제 레이아웃 컴포넌트에 헤더, 푸터 컴포넌트와 콘텐츠 내용을 전달해보자.
+```ts
+    <template>
+    	<Layout>
+    		<template v-slot:header><Header /></template>
+    		<div>매번 변경되는 컨텐츠들..</div>
+    		<Shop />
+    		<template v-slot:footer><Footer/></template>
+    	</Layout>
+    </template>
+```
+name 속성이 있는 슬롯에 내용을 전달하려면 `<template>`에 `v-slot` 디렉티브를 쓰고 속성에 앞에서 지정한 name을 넣으면 된다. 이제 `<template>` 요소들의 모든 내용들은 적절한 슬롯에 전달된다. `<template>`에 싸여있지 않은 내용들은 default 슬롯으로 간주하여 이름 없는 `<slot>`요소에 전달된다. v-slot:default로 명시적으로 표시할 수도 있는 데 아래 예제로 확인해보자. 아래 예제는 바로 위 예제와 동일하다.
+```ts
+    <template>
+    	<Layout>
+    		<template v-slot:header><Header /></template>
+    		<template v-slot:default>
+    			<div>매번 변경되는 컨텐츠들..</div>
+    			<Shop />
+    		</template>
+    		<template v-slot:footer><Footer/></template>
+    	</Layout>
+    </template>
+```
+v-slot만 `<template>` 태그에 추가할 수 있다는 점! 기억하기.
+
+### 슬롯에 전달될 내용이 없을 때 디폴트로 어떤 내용을 표시하고 싶으면?
+
+버튼 텍스트를 `<slot>` 요소로 전달 받으려면 아래와 같이 만들어야한다. 컴포넌트의 이름은 SubmitBtn으로 하자.
+```ts
+    <template>
+    	<v-btn type="submit" :color="color">
+    		<slot></slot>
+    	</v-btn>
+    </template>
+```
+아래와 같이 `<slot>`을 "저장" 텍스트로 대체해보자
+```ts
+    <template>
+    	<SubmitBtn color="grey">저장</SubmitBtn>
+    </template>
+```
+근데 `<SubmitBtn>`안에 아무 것도 안적어도 `<slot>`요소가 "submit"으로 대체되게 하고 싶다면? SubmitBtn 컴포넌트를 아래와 같이 수정하자.
+```ts
+    <template>
+    	<v-btn type="submit" :color="color">
+    		<slot>submit</slot>
+    	</v-btn>
+    </template>
+```
+이제 아무 내용이 없으면 submit이 렌더링 된다.
+```ts
+    <template>
+    	<SubmitBtn></SubmitBtn>
+    </template>
+```
+위 코드의 렌더링 결과는 아래와 같다.
+```ts
+    <v-btn type="submit">
+    	submit
+    </v-btn>
+```
+### 자. 여기까지 배운 상태에서 v-menu 예제를 다시 살펴보자.
+```ts
+    <v-menu offset-y>
+    	<template v-slot:activator="{ on }">
+    	  <v-btn
+    	    color="primary"
+          dark
+          v-on="on"
+    	   >
+    	     Dropdown
+    		 </v-btn>
+       </template>
+       <v-list>
+         <v-list-item
+           v-for="(item, index) in items"
+           :key="index"
+           @click=""
+         >
+           <v-list-item-title>{{ item.title }}</v-list-item-title>
+         </v-list-item>
+       </v-list>
+     </v-menu>
+```
+이정도 해석은 가능할거다. `<v-menu>` 컴포넌트에 `<slot name="activator"></slot>`이 존재하겠구나. 그래서 `<v-btn>` 요소는 "activator" 슬롯에 대체되고 `<template>`로 싸여있지않은 `<v-list>` 컴포넌트는 `<slot></slot>` 즉, 이름 없는 "default" 슬롯에 전달되겠네!
+
+그래도 여전히 의문이 남아있다. activator="{ on }" 의 의미는 뭐지? `<v-btn>` 요소의 v-on 디렉티브에 on이 전달되는 데? 무슨 의미일까? 계속 슬롯에 대해 알아보자
+
+잠시 컴파일 범위를 짚고 넘어가보자. 
+
+> 부모 템플릿 안에 있는 것은 부모 컴포넌트의 범위에 컴파일되고 자식 템플릿 안에 있는 것들은 자식 컴포넌트의 범위에 컴파일된다.
+
+무슨 의미인지 예제로 이해해보자. 우선 자식 컴포넌트를 살펴보자. 베이스 컴포넌트라고 이해해도 좋다. 일부러 아직 `<slot>` 요소를 넣지 않았다. 이 컴포넌트는 props로 items를 전달받고 v-for 디렉티브로 리스트 렌더링을 수행한다. 이 템플릿은 이 컴포넌트의 범위에서 컴파일된다. 즉, items는 이 컴포넌트 범위에 있으므로 `{{ item.name }}` 데이터 옵션이 정상적으로 'a', b', 'c'로 렌더링된다는 의미다. 
+```ts
+    <template>
+    	<ul>
+    		<li v-for="item in items" :key="item.name">
+    			{{ item.name }}
+    		</li>
+    	</ul>
+    </template>
+    <script>
+    export default {
+    	props: ['items']
+    }
+    /*
+    	items = [ 
+    		{ name: 'a', soldout: true, bestten: false },
+    		{ name: 'b', soldout: false, bestten: true},
+    		{ name: 'c', soldout: true, bestten: false  }
+    	]
+    */
+    </script>
+ ```   
+
+만약 어떤 컴포넌트에서는 soldout 이 true면 "Sold Out a" 이런식으로 렌더링하고 싶고 또 다른 컴포넌트에서는 bestten이 true인 아이템만 렌더링하고 싶다면? 물론 또 다른 props를 전달받아서 구분 값으로 사용하여 렌더링하는 방법도 있긴 하다. 하지만 item 속성에 따른 렌더링 방식에 더 다양해진다면 재사용성이 떨어질 것이다. 그럴 때 슬롯을 사용하면된다.
+
+하지만 부모 컴포넌트에서는 베이스 컴포넌트의 데이터를 사용할 수가 없다. items를 넘기므로 items야 물론 접근할 수 있다. 하지만 베이스 컴포넌트에서 렌더링되는 item에 접근할 수가 없는 거다. 컴파일 범위가 다르니 당연한 얘기다. 그럼 어떻게 해야할까? 바로 슬롯스코프를 사용하면 된다.
+```ts
+    <template>
+    	<ul>
+    		<li v-for="item in items" :key="item.name">
+    			<slot name="item" :item="item">
+    				{{ item.name }}
+    			</slot>
+    		</li>
+    	</ul>
+    </template>
+    <script>
+    export default {
+    	props: ['items']
+    }
+    /*
+    	items = [ 
+    		{ name: 'a', soldout: true, bestten: false },
+    		{ name: 'b', soldout: false, bestten: true},
+    		{ name: 'c', soldout: true, bestten: false  }
+    	]
+    */
+    </script>
+```    
+
+위 코드의 `<slot name="item" :item="item">`에 주목해보자. 이렇게 item 속성으로 item 값을 내보냈다. 이렇게 `<slot>` 요소에 연결된 속성을 슬롯 속성(slot props)라고 한다. 이제 이 베이스 컴포넌트를 사용하는 부모 컴포넌트는 item에 접근할 수 있다. 아래는 베이스 컴포넌트를 사용하여 Sold Out 표시를 해주는 컴포넌트다. `<template v-slot:item="{ item }">` 템플릿 v-slot에 슬롯 속성인 item을 쓰면 된다. 아래처럼 item의 slodout 속성에 접근할 수 있게 되었다.
+```ts
+    <template>
+    	<ItemList v-bind:items="items">
+    	  <template v-slot:item="{ item }">
+    	    <span v-if="item.soldout">Sold Out</span>
+    	    {{ item.name }}
+    	  </template>
+    	</ItemList>
+    </template>
+    <script>
+    export default {
+    	data() {
+    		return {
+    			items: [ 
+    				{ name: 'a', soldout: true, bestten: false },
+    				{ name: 'b', soldout: false, bestten: true},
+    				{ name: 'c', soldout: true, bestten: false  }
+    			]
+    		}
+    	}
+    }
+    </script>
+```
+마찬가지로 bestten이 true인 경우에만 렌더링하는 컴포넌트에 사용할 수 있다.
+```ts
+    <template>	
+    	<ItemList v-bind:items="items">
+    	  <template v-slot:item="{ item }">
+    	    <span v-if="item.bestten">{{ item.name }}</span>  
+    	  </template>
+    	</ItemList>
+    </template>
+    <script>
+    export default {
+    	data() {
+    		return {
+    			items: [ 
+    				{ name: 'a', soldout: true, bestten: false },
+    				{ name: 'b', soldout: false, bestten: true},
+    				{ name: 'c', soldout: true, bestten: false  }
+    			]
+    		}
+    	}
+    }
+    </script>
+ ```   
+
+사실 v-slot:item="{ item }" 은 v-slot:item="slotProps" 와 같은 데 ES6의 구조분해를 이용하여 { item } 처럼 사용한 거다.
+
+휴 거의 다했다. 이제 v-menu를 다시 살펴보자
+
+이제 v-menu 컴포넌트의 on(slotProps)를 부모 컴포넌트에서 사용할 수 있게 했구나. 라는 것이 이해될 것이다. 아마 v-menu에서 on은 이벤트 핸들러로 부모 컴포넌트에서 v-on 요소에 on을 연결하면 해당 컴포넌트가 클릭되면 default 슬롯이 보이도록 개발이 되어있을 것이다.
+```ts
+    <v-menu offset-y>
+    	<template v-slot:activator="{ on }">
+    	  <v-btn
+    	    color="primary"
+          dark
+          v-on="on"
+    	   >
+    	     Dropdown
+    		 </v-btn>
+       </template>
+       <v-list>
+         <v-list-item
+           v-for="(item, index) in items"
+           :key="index"
+           @click=""
+         >
+           <v-list-item-title>{{ item.title }}</v-list-item-title>
+         </v-list-item>
+       </v-list>
+     </v-menu>
+```
+슬롯 정리 끝!
