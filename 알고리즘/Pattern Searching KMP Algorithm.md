@@ -88,7 +88,7 @@ Naive 알고리즘 방식대로 이어서 세번째 윈도우를 탐색해보자
     - pat[2] != pat[1] && len ! = 0, len = lps[1-1] =lps[0] = 0
 - i = 2, len = 0 ⇒ **lps[2] = 0**
     - pat[2] ≠ pat[0] && len == 0, lps[2] = 0, i = 3
-
+```cpp
     #include <iostream>
     #include <cstring>
     using namespace std;
@@ -150,3 +150,4 @@ Naive 알고리즘 방식대로 이어서 세번째 윈도우를 탐색해보자
     	KMPSearch(pat, txt);
     	return 0;
     }
+ ```
