@@ -1,20 +1,22 @@
 # Pattern Searching - Naive algorithm
 
-- 알고리즘
-- 2020년 03월 10일
+- Title : Pattern Searching - Naive algorithm
+- Date : 2020-03-10
+- Category: Algorithm
 
 ## Naive algorithm
 
 문자열 인덱스 0부터 패턴 문자열은 하나씩 비교해가는 방법. 가장 직관적이면서 순수(?)하다.
+
 ```cpp
     #include <iostream>
     #include <cstring>
     using namespace std;
-    
+
     void search(char* pat, char* txt) {
     	int M = strlen(pat);
     	int N = strlen(txt);
-    	
+
     	for (int i=0; i<=N-M; i++) {
     		int j;
     		for (j=0; j<M; j++) {
@@ -31,6 +33,7 @@
     	return 0;
     }
 ```
+
 ## 시간 복잡도
 
 ### 최선의 시간 복잡도

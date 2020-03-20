@@ -1,7 +1,8 @@
 # Pattern Searching - KMP Algorithm
 
-- 분류
-- 2020년 03월 11일
+- Title : Pattern Searching - KMP Algorithm
+- Date : 2020-03-11
+- Category: Algorithm
 
 ## KMP
 
@@ -73,9 +74,9 @@ Naive 알고리즘 방식대로 이어서 세번째 윈도우를 탐색해보자
 - 현재 txt 윈도우에서 pat[j] j는 0부터 비교를 시작하기
 - txt[i]와 pat[j]가 일치하면 i와 j를 증가하기
 - txt[i]와 pat[j]가 일치하지않으면
-    - 패턴 0~j-1과 탐색문자 i-j~i-1 까지는 일치한다는 것은 알고 있다.
-    - lps[j-1]은 패턴의 0~j-1 부분 문자열의 접두어 접미어가 일치하는 부분 문자열 중 길이가 가장 긴 값이라는 것은 위 정의를 통해 이미 알고 있다.
-    - 현재 윈도우 txt[i-j~i-1]에서 lps[j-1]만큼은 탐색할 필요는 없다.
+  - 패턴 0~j-1과 탐색문자 i-j~i-1 까지는 일치한다는 것은 알고 있다.
+  - lps[j-1]은 패턴의 0~j-1 부분 문자열의 접두어 접미어가 일치하는 부분 문자열 중 길이가 가장 긴 값이라는 것은 위 정의를 통해 이미 알고 있다.
+  - 현재 윈도우 txt[i-j~i-1]에서 lps[j-1]만큼은 탐색할 필요는 없다.
 
 ## C++
 
@@ -83,22 +84,23 @@ Naive 알고리즘 방식대로 이어서 세번째 윈도우를 탐색해보자
 
 - lps[0] = 0
 - i = 1, len = 0 ⇒ **lps[1] = 1**
-    - pat[1] == pat[0] , len=1, lps[1] = 1, i = 2
+  - pat[1] == pat[0] , len=1, lps[1] = 1, i = 2
 - i = 2, len = 1
-    - pat[2] != pat[1] && len ! = 0, len = lps[1-1] =lps[0] = 0
+  - pat[2] != pat[1] && len ! = 0, len = lps[1-1] =lps[0] = 0
 - i = 2, len = 0 ⇒ **lps[2] = 0**
-    - pat[2] ≠ pat[0] && len == 0, lps[2] = 0, i = 3
+  - pat[2] ≠ pat[0] && len == 0, lps[2] = 0, i = 3
+
 ```cpp
     #include <iostream>
     #include <cstring>
     using namespace std;
-    
+
     void computeLPSArray(char* pat, int M, int *lps) {
     	// 현재까지 계산한 lps 중 가장 큰 값
     	int len = 0;
     	// 부분문자열 길이가 1이면 lps 값은 언제나 0
     	lps[0] = 0;
-    	
+
     	// i ~ M - 1 까지 계산
     	int i = 1;
     	while (i < M) {
@@ -119,11 +121,11 @@ Naive 알고리즘 방식대로 이어서 세번째 윈도우를 탐색해보자
     void KMPSearch(char* pat, char* txt) {
     	int M = strlen(pat);
     	int N = strlen(txt);
-    	
+
     	int lps[M];
-    	
+
     	computeLPSArray(pat, M, lps);
-    	
+
     	int i = 0, j = 0;
     	while (i < N) {
     		if (pat[j] == txt[i]) {
@@ -133,7 +135,7 @@ Naive 알고리즘 방식대로 이어서 세번째 윈도우를 탐색해보자
     		if (j == M) {
     			cout << "Found Pattern at index " << (i - j) << endl;
     			j = lps[j - 1];
-    		} 
+    		}
     		// 패턴이 일치하지않으면
     		else if (i < N && pat[j] != txt[i]) {
     			// 미스매칭이 1~M이면
@@ -150,4 +152,4 @@ Naive 알고리즘 방식대로 이어서 세번째 윈도우를 탐색해보자
     	KMPSearch(pat, txt);
     	return 0;
     }
- ```
+```
