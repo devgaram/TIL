@@ -1,14 +1,13 @@
----
-title:  AWS 연습하자 3탄 - Jenkins와 S3 버킷 & AWS codeDeploy 연동으로 배포하기
-date: 2020-02-26
-tags: [aws]
-category: infra
----
+# AWS 연습하자 3탄 - Jenkins와 S3 버킷 & AWS codeDeploy 연동으로 배포하기
+
+- Title : AWS 연습하자 3탄 - Jenkins와 S3 버킷 & AWS codeDeploy 연동으로 배포하기
+- Date : 2020-02-26
+- Category: Infra
 
 > AWS 연습하자 시리즈
+>
 > - [AWS 연습하자 1탄 - AWS EC2 인스턴스에 Jenkins 서버 구축하기](/post/2020-02-24-how-to-use-aws)
 > - [AWS 연습하자 2탄 - Jenkins와 Github 연동](/post/2020-02-25-how-to-use-aws)
-
 
 AWS 연습하기 3탄에서는 AWS S3와 Aws Codedeploy로 자동 배포 환경을 구축하는 과정을 다루겠습니다.
 
@@ -24,19 +23,19 @@ AWS 연습하기 3탄에서는 AWS S3와 Aws Codedeploy로 자동 배포 환경�
 
 사용자 이름을 입력하고 액세스 유형은 프로그래밍 방식 액세스를 선택합니다.
 
-![process tree](/assets/images/2020-02-24-img/29.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/29.png)
 
 해당 계정이 사용할 수 있는 정책으로는 CodeDeploy와 S3 권한을 할당 받겠습니다.
 
-![process tree](/assets/images/2020-02-24-img/30.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/30.png)
 
-![process tree](/assets/images/2020-02-24-img/31.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/31.png)
 
-![process tree](/assets/images/2020-02-24-img/32.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/32.png)
 
 .csv 다운로드 버튼을 클릭하여 비밀키를 잘 보관해둡니다.
 
-![process tree](/assets/images/2020-02-24-img/33.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/33.png)
 
 # AWS S3 버킷 생성
 
@@ -66,7 +65,7 @@ AWS 서비스를 누른 후 이 역할을 사용할 서비스 선택에서 **Cod
 
 EC2 콘솔로 이동한 후 아래와 같이 IAM 역할 연결/바꾸기 를 선택합니다.
 
-![process tree](/assets/images/2020-02-24-img/34.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/34.png)
 
 아까만든 **blog-server-EC2CodeDeployRole** 을 선택한 후 적용합니다.
 
@@ -87,7 +86,7 @@ aws cli를 설치하겠습니다.
 sudo yum install awscli
 ```
 
-에이전트 설치 후 aws 설정을 하겠습니다. 
+에이전트 설치 후 aws 설정을 하겠습니다.
 
 ```
 sudo aws configure
@@ -132,10 +131,9 @@ sudo vim /etc/init.d/codedeploy-startup.sh
 sudo chmod +x /etc/init.d/codedeploy-startup.sh
 ```
 
-> #!/bin/bash    
-> echo 'Starting codedeploy-agent'     
+> #!/bin/bash  
+> echo 'Starting codedeploy-agent'  
 > sudo service codedeploy-agent restart
-
 
 # nginx와 Docker로 무중단 배포하기
 
@@ -159,10 +157,9 @@ $ docker-compose --version
 $ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 ```
 
-잠시 배포에 대해 짚고 넘어가겠습니다. 뒤에서 실습을 진행하겠지만, AWS Code Deploy에서 배포한 파일은 /home/ec2-user/build 에 복사되게 할 것입니다. 
+잠시 배포에 대해 짚고 넘어가겠습니다. 뒤에서 실습을 진행하겠지만, AWS Code Deploy에서 배포한 파일은 /home/ec2-user/build 에 복사되게 할 것입니다.
 
 배포 후 /home/ec2-user/build 이 폴더에는 Dockerfile 과 docker-compose.yml 파일이 존재할것이고 이를 이용해 컨테이너에 서버를 올릴 것입니다.
-
 
 혹시 docker ps 해봤더니 **Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?** 에러가 떴다면 docker service가 실행이 안된 것이므로 아래와 같이 명령을 내리겠습니다. [도커 설치 가이드](https://docs.docker.com/install/linux/linux-postinstall/#manage-docker-as-a-non-root-user)를 참고했습니다.
 
@@ -211,30 +208,30 @@ docker-compose.blue.yml
 
 ```
 version: "3.7"
-services: 
+services:
   blog-server:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes: 
+    volumes:
       - .:/usr/src/app
     ports:
-      - "3001:3000" 
+      - "3001:3000"
 ```
 
 docker-compose.green.yml
 
 ```
 version: "3.7"
-services: 
+services:
   blog-server:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes: 
+    volumes:
       - .:/usr/src/app
     ports:
-      - "3002:3000"  
+      - "3002:3000"
 ```
 
 ## 2) nginx로 로드밸런싱 설정
@@ -283,7 +280,8 @@ sudo service nginx restart
 ```
 
 > [생활코딩nginx](https://opentutorials.org/module/384/4328)
-> - Nginx는 4개의 로드밸런싱 메서드를 제공합니다. 그중  least_conn 은 연결이 가장 작은 서버로 요청을 보냅니다.
+>
+> - Nginx는 4개의 로드밸런싱 메서드를 제공합니다. 그중 least_conn 은 연결이 가장 작은 서버로 요청을 보냅니다.
 > - weight=n : 업스트림 서버의 비중을 나타냅니다. 이 값을 2로 설정하면 그렇지 않은 서버에 비해 두배 더 자주 선택됩니다.
 > - max_fails=n : n으로 지정한 횟수만큼 실패가 일어나면 서버가 죽은 것으로 간주합니다.
 > - fail_timeout=n : max_fails가 지정된 상태에서 이 값이 설정만큼 서버가 응답하지 않으면 죽은 것으로 간주합니다.
@@ -292,11 +290,12 @@ sudo service nginx restart
 
 우선 Pipeline AWS STEP과 AWS Codedeploy 플러그인을 설치해줍니다. Pipeline AWS STEP은 S3로 소스 전송할 때, AWS Codedeploy로는 S3 버킷의 코드를 인스턴스에 배포하도록 설정하겠습니다.
 
-![process tree](/assets/images/2020-02-24-img/22.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/22.png)
 
-![process tree](/assets/images/2020-02-24-img/25.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/25.png)
 
 각 플러그인 사용방법
+
 - [Pipeline AWS STEP](https://github.com/jenkinsci/pipeline-aws-plugin#deployapi)
 - [AWS Codedeploy](https://github.com/jenkinsci/aws-codedeploy-plugin)
 
@@ -308,11 +307,11 @@ sudo service nginx restart
 
 Kind는 AWS Credentials를 선택하고 Access key와 secret key는 위에서 생성한 csv 파일을 보고 입력합니다.
 
-![process tree](/assets/images/2020-02-24-img/23.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/23.png)
 
 OK 클릭 후 클릭해보면 아래와 같이 ID를 볼수 있습니다. 파이프라인 작성 시에 사용해야하므로 저장해둡니다.
 
-![process tree](/assets/images/2020-02-24-img/24.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/24.png)
 
 AWS 연습하기 2탄에서 작업했던 파이프라인을 아래와 같이 수정합니다.
 
@@ -336,7 +335,7 @@ pipeline {
             git 'https://github.com/devgaram/express-project-blog.git'
          }
       }
-      
+
       stage('Install dependencies') {
           steps {
               sh 'npm install -g yarn'
@@ -384,7 +383,7 @@ Snippet Generators는 파이프라인 스크립트 생성에 도움을 주는 �
 
 **Steps 섹션 -> Sample Step - step:General Build Step 선택 -> Build Step - Deploy an application to AWS CodeDeploy 선택** 을 진행합니다.
 
-![process tree](/assets/images/2020-02-24-img/26.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/26.png)
 
 - AWS CodeDeploy Application Name: EC2 인스턴스 이름
 - AWS CodeDeploy Deployment Group: CodeDeploy 그룹 명
@@ -396,7 +395,7 @@ Use Access/Secret keys 라디오 버튼을 선택하여 csv로 저장했던 내�
 
 마지막으로 Generate Pipeline Script 버튼을 클릭하면 나오는 텍스트를 복사합니다.
 
-![process tree](/assets/images/2020-02-24-img/27.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/27.png)
 
 최종적으로 파이프라인을 아래와 같이 구성됩니다.
 
@@ -418,7 +417,7 @@ pipeline {
             git 'https://github.com/devgaram/express-project-blog.git'
          }
       }
-      
+
       stage('Install dependencies') {
           steps {
               sh 'npm install -g yarn'
@@ -461,8 +460,7 @@ pipeline {
 
 ## 3) AWS Deploy 설정 파일
 
-AWS CodeDeploy는 프로젝트 루트에 있는 appspec.yml를 이용하여 배포를 진행합니다. 자세한 내용은 [aws 가이드](https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/reference-appspec-file.html#appspec-reference-server
-)에서 확인하세요.
+AWS CodeDeploy는 프로젝트 루트에 있는 appspec.yml를 이용하여 배포를 진행합니다. 자세한 내용은 [aws 가이드](https://docs.aws.amazon.com/ko_kr/codedeploy/latest/userguide/reference-appspec-file.html#appspec-reference-server)에서 확인하세요.
 
 프로젝트 루트에 appspec.yml 파일 생성 후 아래와 같이 입력합니다. AWS CodeDeploy가 ec2의 /home/ec2-user/build/ 위치에 S3 버킷에 있는 코드를 옮기도록 설정했습니다. 배포 후에는 execute-deploy.sh 작업을 통해 도커 컨테이너를 올릴 것입니다.
 
@@ -517,13 +515,14 @@ fi
 
 자 이제 실제로 커밋 푸시하면 배포까지 완료되는 것을 볼 수 있습니다!
 
-![process tree](/assets/images/2020-02-24-img/28.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/28.png)
 
 > 추가로 해야할 것
+>
 > - S3에 왜 node_modules랑 .git도 올라가는 거지..? 분명 제외시켰는 데..
 
-
 참고
+
 - [기억보단 기록을](https://jojoldu.tistory.com/265)
 - https://velog.io/@jeff0720/Travis-CI-AWS-CodeDeploy-Docker-%EB%A1%9C-%EB%B0%B0%ED%8F%AC-%EC%9E%90%EB%8F%99%ED%99%94-%EB%B0%8F-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95%ED%95%98%EA%B8%B0-2
 - https://medium.com/faun/create-a-continuous-delivery-pipeline-using-jenkins-gitlab-github-and-deploy-on-aws-ec2-with-3aaadf073196

@@ -1,14 +1,10 @@
----
-layout: post-content
-title: Liquid 문법
-date: 2019-03-05
-tags: [jekyll, liquid]
-category: [jekyll]
----
+# Liquid 문법
+
+- Title : Liquid 문법
+- Date : 2019-03-05
+- Category: Jekyll
 
 jekyll 블로그 운영시 알아야할 필수 liquid 문법
-
----
 
 [liquid 문법 정리된 사이트](https://shopify.github.io/liquid/basics/types/)
 

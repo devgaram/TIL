@@ -1,24 +1,22 @@
----
-layout: post-content
-title: (Drawable 리소스) LayerDrawable과 ShapeDrawable을 이용해 둥근모서리와 그림자 있는 배경 만들기.
-date: 2019-01-16
-tags: [android, resource]
-category: [android]
----
+# [Drawable 리소스] LayerDrawable과 ShapeDrawable을 이용해 둥근모서리와 그림자 있는 배경 만들기.
+
+- Title : [Drawable 리소스] LayerDrawable과 ShapeDrawable을 이용해 둥근모서리와 그림자 있는 배경 만들기.
+- Date : 2019-01-16
+- Category: Android
 
 LayerDrawable과 ShapeDrawable을 이용해 둥근모서리+그림자+투명배경이 있는 디자인을 다른 XML 리소스의 background로 적용하는 방법입니다.
-
----
 
 [안드로이드 개발문서-Drawable 바로가기](https://developer.android.com/guide/topics/resources/drawable-resource?hl=ko)
 
 ## 드로어블(Drawable) 리소스
-앱 화면에 그리고 싶은 것을 XML 파일로 미리 정의할 수 있으며, <code class="codetainer">getDrawable(int)</code>와 같은 API를 사용하여 가져오거나 
-<code class="codetainer">android:drawable</code> 및 <code class="codetainer">android:icon</code>과 같은 속성을 사용하여 다른 XML 리소스에 적용할 수 있다.     
+
+앱 화면에 그리고 싶은 것을 XML 파일로 미리 정의할 수 있으며, <code class="codetainer">getDrawable(int)</code>와 같은 API를 사용하여 가져오거나
+<code class="codetainer">android:drawable</code> 및 <code class="codetainer">android:icon</code>과 같은 속성을 사용하여 다른 XML 리소스에 적용할 수 있다.  
 <span class="clr-grey">**Example)** android:background="@drawable/custom_layer_resource"</span>
 
 # LayerDrawable
-각 `<item>` 요소는 순서대로 그려지므로, 맨 마지막 `<item>`이 맨 위에 보이게 된다.    
+
+각 `<item>` 요소는 순서대로 그려지므로, 맨 마지막 `<item>`이 맨 위에 보이게 된다.
 
 <span class="li-nonicon">위치 : res/drawable/filename.xml</span>
 <span class="li-nonicon">Java 리소스 참조 : R.drawable.filename</span>
@@ -34,9 +32,10 @@ LayerDrawable과 ShapeDrawable을 이용해 둥근모서리+그림자+투명배�
         android:top="dimension"
         android:right="dimension"
         android:bottom="dimension"
-        android:left="dimension" /> 
+        android:left="dimension" />
 </layer-list>
 ```
+
 <span class="li-icon"><code class="codetainer">android:top="dimension"</code> top에서 dimension 값만큼 padding</span>
 
 # ShapeDrawable
@@ -83,6 +82,7 @@ LayerDrawable과 ShapeDrawable을 이용해 둥근모서리+그림자+투명배�
         android:dashGap="integer" />
 </shape>
 ```
+
 <span class="li-icon"><code class="codetainer">corners : </code>둥근모서리</span>
 <span class="li-icon"><code class="codetainer">gradient : </code>그라데이션 색상</span>
 <span class="li-icon"><code class="codetainer">padding : </code>shape가 아닌 view 요소에 적용할 패딩</span>
@@ -92,14 +92,15 @@ LayerDrawable과 ShapeDrawable을 이용해 둥근모서리+그림자+투명배�
 
 # 실전예제
 
-1) 둥근모서리+그림자+투명배경 드로어블 생성하기     
+1. 둥근모서리+그림자+투명배경 드로어블 생성하기
 
 res/drawable/round_border.xml
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item>
-        <shape android:shape="rectangle" >            
+        <shape android:shape="rectangle" >
             <solid android:color="@android:color/darker_gray" />
         </shape>
     </item>
@@ -120,7 +121,9 @@ res/drawable/round_border.xml
     </item>
 </layer-list>
 ```
-2) round_border를 LinearLayout의 배경으로 적용하기
+
+2. round_border를 LinearLayout의 배경으로 적용하기
+
 ```xml
 <LinearLayout
         android:layout_width="match_parent"

@@ -1,11 +1,11 @@
----
-title:  AWS 연습하자 2탄 - Jenkins와 Github 연동
-date: 2020-02-25
-tags: [aws]
-category: infra
----
+# AWS 연습하자 2탄 - Jenkins와 Github 연동
+
+- Title : AWS 연습하자 2탄 - Jenkins와 Github 연동
+- Date : 2020-02-25
+- Category: Infra
 
 > AWS 연습하자 시리즈
+>
 > - [AWS 연습하자 1탄 - AWS EC2 인스턴스에 Jenkins 서버 구축하기](/post/2020-02-24-how-to-use-aws)
 
 AWS 연습하기 2탄에서는 추가 설정과 Jenkins와 Github을 연동하는 과정을 다뤄보겠습니다.
@@ -38,7 +38,7 @@ sudo cat id_rsa
 
 아래와 같이 설정한 후 저장합니다.
 
-![process tree](/assets/images/2020-02-24-img/19.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/19.png)
 
 이제 공개키(id_rsa.pub)를 Github에 등록하겠습니다.
 Jenkins로 관리할 Github 프로젝트로 이동한 뒤 **Settings탭 -> Deploy keys -> Add deploy key** 를 차례로 클릭합니다.
@@ -50,7 +50,6 @@ sudo cat id_rsa.pub
 ```
 
 Allow write access는 체크 해제한 후 Add Key를 클릭합니다.
-
 
 이 작업만 해도 Build, Test, Code Clone 등을 다 할 수 있긴 합니다. PUSH 발생시에도 젠킨스가 PUSH 이벤트를 받을 수 있도록 Webhooks를 추가하겠습니다.
 
@@ -69,8 +68,7 @@ Payload URL에 http://Jenkins도메인/github-webhook/ 을 입력하고 Content 
 아래와 같이 입력한 후 저장합니다.
 저는 로컬에서 노드 버전이 12.14.1 여서 다음과 같이 선택했습니다.
 
-![process tree](/assets/images/2020-02-24-img/16.png)
-
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/16.png)
 
 # Item 생성 및 파이프라인 작성
 
@@ -78,7 +76,7 @@ Payload URL에 http://Jenkins도메인/github-webhook/ 을 입력하고 Content 
 
 Build Triggers가 Github hook과 연동되도록 다음과 같이 선택합니다.
 
-![process tree](/assets/images/2020-02-24-img/20.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/20.png)
 
 Pipeline 섹션에 Definition은 Pipeline script로 한 후 아래와 같이 입력하고 저장합니다. Pipeline 스크립트를 jenkinsfile로 관리하는 것은 뒤에서 다루도록 하겠습니다.
 
@@ -96,7 +94,7 @@ pipeline {
             git 'https://github.com/devgaram/express-project-blog.git'
          }
       }
-      
+
       stage('Install dependencies') {
           steps {
               sh 'npm install -g yarn'
@@ -137,4 +135,3 @@ pipeline {
 [AWS 연습하자 3탄 - Jenkins와 S3 버킷 & AWS codeDeploy 연동으로 배포하기](/post/2020-02-26-how-to-use-aws) 으로 이어집니다.
 
 [참고 블로그](https://medium.com/@gustavo.guss/jenkins-starting-with-pipeline-doing-a-node-js-test-72c6057b67d4)
-
