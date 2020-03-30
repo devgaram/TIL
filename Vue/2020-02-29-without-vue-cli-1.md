@@ -89,7 +89,7 @@ module.exports = {
 - **entry** : 자바스크립트가 로딩하는 모듈이 많아질수록 모듈간의 의존성은 증가한다. 웹팩에서 의존성 그래프의 시작점을 엔트리(entry)라고 한다.
 - **output** : entry에 설정한 main.ts을 시작으로 의존되어있는 모든 모듈을 하나로 묶은(번들된) 결과의 위치를 output에 정의한다. webpack을 실행하면 /dist 폴더에 main.bundle.js란 이름으로 파일이 생성될 것이다.
 
-**npm run build** 를 실행시키면 dist 폴더에 index.html 파일이 생성되고 <script type="text/javascript" src="main.js">로 번들 파일이 주입된다.
+**npm run build** 를 실행시키면 dist 폴더에 index.html 파일이 생성되고 `<script type="text/javascript" src="main.js">`로 번들 파일이 주입된다.
 
 webpack-dev-server 에 대한 추가적인 설정을 하려면 devServer 옵션을 이용하면 된다.
 

@@ -38,7 +38,7 @@ sudo cat id_rsa
 
 아래와 같이 설정한 후 저장합니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/19.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/19.PNG)
 
 이제 공개키(id_rsa.pub)를 Github에 등록하겠습니다.
 Jenkins로 관리할 Github 프로젝트로 이동한 뒤 **Settings탭 -> Deploy keys -> Add deploy key** 를 차례로 클릭합니다.
@@ -68,7 +68,7 @@ Payload URL에 http://Jenkins도메인/github-webhook/ 을 입력하고 Content 
 아래와 같이 입력한 후 저장합니다.
 저는 로컬에서 노드 버전이 12.14.1 여서 다음과 같이 선택했습니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/16.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/16.PNG)
 
 # Item 생성 및 파이프라인 작성
 
@@ -76,7 +76,7 @@ Payload URL에 http://Jenkins도메인/github-webhook/ 을 입력하고 Content 
 
 Build Triggers가 Github hook과 연동되도록 다음과 같이 선택합니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/20.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/20.PNG)
 
 Pipeline 섹션에 Definition은 Pipeline script로 한 후 아래와 같이 입력하고 저장합니다. Pipeline 스크립트를 jenkinsfile로 관리하는 것은 뒤에서 다루도록 하겠습니다.
 

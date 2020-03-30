@@ -14,7 +14,7 @@
 
 > vue 가 릴리즈 될 때 vue-template-compiler도 릴리즈된다. vue-template-compiler 버전이 vue 패키지와 동기되어야 vue-loader가 vue를 웹팩이 이해할 수 있는 코드로 생산할 수 있다. 즉 프로젝트에서 vue를 업그레이드 했으면 반드시 vue-template-compiler 버전도 맞춰줘야한다.
 
-- vue-loader : vue-loader는 rule 설정 외에 추가적으로 vue loader 플러그인을 설정해야한다. 예를 들어 **new VueLoaderPlugin()** 을 해야 .vue 파일의 <script> 블록이 웹팩의 /\.js\$/ 의 바벨 로더에도 적용될 수 있다.
+- vue-loader : vue-loader는 rule 설정 외에 추가적으로 vue loader 플러그인을 설정해야한다. 예를 들어 **new VueLoaderPlugin()** 을 해야 .vue 파일의 `<script>` 블록이 웹팩의 /\.js\$/ 의 바벨 로더에도 적용될 수 있다.
 
 webpack.config.js에 아래를 추가해주자.
 
@@ -40,7 +40,7 @@ module.exports = {
 };
 ```
 
-.vue 파일의 <style> 블록과 .css 파일을 처리하기 위해 vue-style-loader와 css-loader 를 설치하자
+.vue 파일의 `<style>` 블록과 .css 파일을 처리하기 위해 vue-style-loader와 css-loader 를 설치하자
 
     npm install --save-dev vue-style-loader css-loader
 
@@ -59,7 +59,7 @@ module.exports = {
 };
 ```
 
-Vue 루트 인스턴스를 <div id="app"></div>에 마운트 시키려면 dist/index.html 에 위 DOM이 있어야 한다. 이 작업을 위해 public/index.html 파일을 만들고 아래와 같이 작성한다.
+Vue 루트 인스턴스를 `<div id="app"></div>`에 마운트 시키려면 dist/index.html 에 위 DOM이 있어야 한다. 이 작업을 위해 public/index.html 파일을 만들고 아래와 같이 작성한다.
 
 ```html
 <!DOCTYPE html>
@@ -74,7 +74,7 @@ Vue 루트 인스턴스를 <div id="app"></div>에 마운트 시키려면 dist/i
 </html>
 ```
 
-webpack.config.js의 HtmlWebpackPlugin에 template 옵션을 추가하여 위 html을 기반으로 index.html이 만들어지게 설정한다. npm run build를 해보면 dist/index.html 파일에 <div id="app"></div>이 보일 것이다.
+webpack.config.js의 HtmlWebpackPlugin에 template 옵션을 추가하여 위 html을 기반으로 index.html이 만들어지게 설정한다. npm run build를 해보면 dist/index.html 파일에 `<div id="app"></div>`이 보일 것이다.
 
 ```js
 module.exports = {

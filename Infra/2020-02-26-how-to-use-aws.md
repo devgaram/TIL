@@ -23,19 +23,19 @@ AWS 연습하기 3탄에서는 AWS S3와 Aws Codedeploy로 자동 배포 환경�
 
 사용자 이름을 입력하고 액세스 유형은 프로그래밍 방식 액세스를 선택합니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/29.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/29.PNG)
 
 해당 계정이 사용할 수 있는 정책으로는 CodeDeploy와 S3 권한을 할당 받겠습니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/30.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/30.PNG)
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/31.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/31.PNG)
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/32.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/32.PNG)
 
 .csv 다운로드 버튼을 클릭하여 비밀키를 잘 보관해둡니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/33.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/33.PNG)
 
 # AWS S3 버킷 생성
 
@@ -65,7 +65,7 @@ AWS 서비스를 누른 후 이 역할을 사용할 서비스 선택에서 **Cod
 
 EC2 콘솔로 이동한 후 아래와 같이 IAM 역할 연결/바꾸기 를 선택합니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/34.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/34.PNG)
 
 아까만든 **blog-server-EC2CodeDeployRole** 을 선택한 후 적용합니다.
 
@@ -290,9 +290,9 @@ sudo service nginx restart
 
 우선 Pipeline AWS STEP과 AWS Codedeploy 플러그인을 설치해줍니다. Pipeline AWS STEP은 S3로 소스 전송할 때, AWS Codedeploy로는 S3 버킷의 코드를 인스턴스에 배포하도록 설정하겠습니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/22.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/22.PNG)
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/25.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/25.PNG)
 
 각 플러그인 사용방법
 
@@ -307,11 +307,11 @@ sudo service nginx restart
 
 Kind는 AWS Credentials를 선택하고 Access key와 secret key는 위에서 생성한 csv 파일을 보고 입력합니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/23.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/23.PNG)
 
 OK 클릭 후 클릭해보면 아래와 같이 ID를 볼수 있습니다. 파이프라인 작성 시에 사용해야하므로 저장해둡니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/24.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/24.PNG)
 
 AWS 연습하기 2탄에서 작업했던 파이프라인을 아래와 같이 수정합니다.
 
@@ -383,7 +383,7 @@ Snippet Generators는 파이프라인 스크립트 생성에 도움을 주는 �
 
 **Steps 섹션 -> Sample Step - step:General Build Step 선택 -> Build Step - Deploy an application to AWS CodeDeploy 선택** 을 진행합니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/26.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/26.PNG)
 
 - AWS CodeDeploy Application Name: EC2 인스턴스 이름
 - AWS CodeDeploy Deployment Group: CodeDeploy 그룹 명
@@ -395,7 +395,7 @@ Use Access/Secret keys 라디오 버튼을 선택하여 csv로 저장했던 내�
 
 마지막으로 Generate Pipeline Script 버튼을 클릭하면 나오는 텍스트를 복사합니다.
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/27.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/27.PNG)
 
 최종적으로 파이프라인을 아래와 같이 구성됩니다.
 
@@ -515,7 +515,7 @@ fi
 
 자 이제 실제로 커밋 푸시하면 배포까지 완료되는 것을 볼 수 있습니다!
 
-![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/28.png)
+![process tree](https://raw.githubusercontent.com/devgaram/TIL/master/Infra/images/2020-02-24-img/28.PNG)
 
 > 추가로 해야할 것
 >
