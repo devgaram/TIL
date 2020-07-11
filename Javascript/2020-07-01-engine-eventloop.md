@@ -60,7 +60,7 @@ john.bonus = findEmployeeBonus(john.salary, john.sales);
 console.log(john.bonus);
 ```
 
-![Untitled%20317b50b1b5f4479693d549996ca1171a/2020-07-11_14.27.20.gif](Untitled%20317b50b1b5f4479693d549996ca1171a/2020-07-11_14.27.20.gif)
+![stackheap](https://raw.githubusercontent.com/devgaram/TIL/master/Javascript/images/2020-07-01-img/stack-heap.gif)
 
 # 이벤트 루프와 비동기 프로그래밍
 
