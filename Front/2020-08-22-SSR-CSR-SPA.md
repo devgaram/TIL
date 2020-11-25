@@ -1,5 +1,7 @@
 # SPA, SSR vs CSR
-
+- Title : SSR vs CSR vs SPA
+- Date : 2020-08-22
+- Category : 프론트
 # SPA(Single Page Application)
 
 - 앱에 필요한 모든 정적 리소스를 **최초 한번만** 받아 오고 이후에는 동적으로 DOM을 구성하여 렌더링 되는 화면만 바꾼다.
