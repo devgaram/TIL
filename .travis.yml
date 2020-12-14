@@ -6,7 +6,7 @@ jobs:
         if [[ ($TRAVIS_BRANCH == master) &&
               ($TRAVIS_PULL_REQUEST == false) ]] ; then
           curl -LO --retry 3 https://raw.githubusercontent.com/plume-lib/trigger-travis/master/trigger-travis.sh
-          sh trigger-travis.sh --branch develop devgaram.github.io OTHERGITHUBPROJECT $TRAVIS_ACCESS_TOKEN
+          sh trigger-travis.sh --branch develop devgaram devgaram.github.io $TRAVIS_ACCESS_TOKEN
         else
 	  echo "trigger-travis.sh did not run"
         fi
