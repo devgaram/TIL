@@ -1,5 +1,5 @@
 # HTTP 커넥션(part 1)
-- Title : HTTP 커넥션
+- Title : HTTP 커넥션(part 1)
 - Date : 2020-12-14
 - Category : Network
 
